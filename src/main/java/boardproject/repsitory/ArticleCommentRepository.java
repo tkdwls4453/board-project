@@ -10,12 +10,15 @@ import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
 @RepositoryRestResource
 public interface ArticleCommentRepository extends
         JpaRepository<ArticleComment, Long>,
         QuerydslPredicateExecutor<ArticleComment>,
         QuerydslBinderCustomizer<QArticleComment>
 {
+    List<ArticleComment> findByArticle_id(Long articleId);
     @Override
     default void customize(QuerydslBindings bindings, QArticleComment root) {
         // 현재는 'QuerydslPredicateExecutor<Article>' 문구로 인해서 모든 필드가 검색 필드로 들어가는데 이것은 우리가 원한 것이 아니다.
