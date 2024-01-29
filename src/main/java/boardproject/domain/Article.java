@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@ToString(callSuper = true)
+@ToString
 @Table(indexes = {
         @Index(columnList = "title"),
         @Index(columnList = "hashtag"),
@@ -21,8 +21,6 @@ public class Article extends AuditingFields{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
 
     @Setter
     @Column(nullable = false)
@@ -36,22 +34,21 @@ public class Article extends AuditingFields{
 
     // 순환 참조가 일어나기 때문에 무조건 양방향 매핑에서는 ToString 을 막아주자
     @ToString.Exclude
-    @OrderBy("createdAt DESC")
+    @OrderBy("id")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
     protected Article() {
     }
 
-    private Article(UserAccount userAccount, String title, String content, String hashtag) {
-        this.userAccount = userAccount;
+    private Article(String title, String content, String hashtag) {
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
-    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
-        return new Article(userAccount, title, content, hashtag);
+    public static Article of(String title, String content, String hashtag) {
+        return new Article(title, content, hashtag);
     }
 
     @Override
