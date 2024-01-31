@@ -4,6 +4,8 @@ import boardproject.domain.Article;
 import boardproject.domain.QArticle;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -15,6 +17,8 @@ public interface ArticleRepository extends
         JpaRepository<Article, Long>,
         QuerydslPredicateExecutor<Article>,
         QuerydslBinderCustomizer<QArticle> {
+
+    Page<Article> findByTitle(String title, Pageable pageable);
     @Override
     default void customize(QuerydslBindings bindings, QArticle root) {
         // 현재는 'QuerydslPredicateExecutor<Article>' 문구로 인해서 모든 필드가 검색 필드로 들어가는데 이것은 우리가 원한 것이 아니다.
