@@ -18,7 +18,11 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>,
         QuerydslBinderCustomizer<QArticle> {
 
-    Page<Article> findByTitle(String title, Pageable pageable);
+    Page<Article> findByTitleContaining(String title, Pageable pageable);
+    Page<Article> findByContentContaining(String content, Pageable pageable);
+    Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+    Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+    Page<Article> findByHashtag(String hashtag, Pageable pageable);
     @Override
     default void customize(QuerydslBindings bindings, QArticle root) {
         // 현재는 'QuerydslPredicateExecutor<Article>' 문구로 인해서 모든 필드가 검색 필드로 들어가는데 이것은 우리가 원한 것이 아니다.
