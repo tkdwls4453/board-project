@@ -177,7 +177,7 @@ class ArticleServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected);
         then(articleRepository).should().count();
-        
+
     }
 
 
